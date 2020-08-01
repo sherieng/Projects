@@ -1,0 +1,42 @@
+<div class="card border-left-primary shadow w-100 py-2">
+    <div class="card-body">
+        <h5 class="text-dark">Enter Your Information</h5> 
+        <div class="col-10">
+            <form (ngSubmit)="onSubmit()" (click)="onSubmit()" #myForm="ngForm">
+
+                <label class="mt-4">Your monthly take home pay:</label>
+                <input class="form-control" type="number" name="newBudget.income" [(ngModel)]="newBudget.income" #income='ngModel' required appMinValue/>
+                <div *ngIf="income.invalid && (income.dirty || income.touched)" class="alert alert-danger"  >
+                    <div *ngIf = "income?.errors.required">Income is required.</div> 
+                    <div *ngIf = "income?.errors.appMinValue">Income cannot be less than 0.</div>
+                </div>
+
+                <label class="mt-4">Your total monthly contribution for retirement:</label>
+                <input class="form-control" type="number" name="newBudget.retirement" [(ngModel)]="newBudget.retirement" #retirement='ngModel' required appMinValue appMaxValueValidator>
+                <div *ngIf="retirement.touched && retirement.invalid" class="alert alert-danger" > 
+                    <div *ngIf = "retirement?.errors.required">Please enter a value for this field.</div>
+                    <div *ngIf = "retirement?.errors.appMinValue">Retirement amount must be greater than 0.</div>
+                    <div *ngIf = "retirement?.errors.appMaxValueValidator">Retirement goal must be less than income.</div>
+                </div>
+
+                <label class="mt-4">Your total monthly loan payment:</label>
+                <input class="form-control" type="text" name="newBudget.loan" [(ngModel)]="newBudget.loan" pattern="\d+" #loan='ngModel' required appMinValue appMaxValueValidator>
+                <div *ngIf="loan.touched && loan.invalid" class="alert alert-danger">
+                    <div *ngIf = "loan.errors.required">Please enter a value for this field.</div>
+                    <div *ngIf = "loan?.errors.appMinValue">Loan payment cannot be less than 0.</div>
+                    <div *ngIf = "loan?.errors.appMaxValueValidator">Loan payment must be less than income.</div>
+                </div>
+
+                <label class="mt-4">Your total monthly savings contribution:</label>
+                <input class="form-control" type="text" name="newBudget.savings" [(ngModel)]="newBudget.savings" pattern="\d+" #savings='ngModel' required appMinValue appMaxValueValidator>
+                <div *ngIf="savings.touched && savings.invalid" class="alert alert-danger">
+                    <div *ngIf = "savings.errors.required">Please enter a value for this field.</div>
+                    <div *ngIf = "savings?.errors.appMinValue">Savings amount cannot be less than 0.</div>
+                    <div *ngIf = "savings?.errors.appMaxValueValidator">Savings goal must be less than income.</div>
+                </div> 
+
+                <input type="submit" value="Calculate" class="btn btn-light my-3" >
+            </form>   
+        </div>
+    </div>
+</div>
